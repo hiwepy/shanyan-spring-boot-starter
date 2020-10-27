@@ -19,7 +19,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
+/*
  * https://shanyan.253.com/document/details?lid=300&cid=93&pc=28&pn=%25E9%2597%25AA%25E9%25AA%258CSDK
  * @author 		： <a href="https://github.com/vindell">vindell</a>
  */
@@ -42,7 +42,7 @@ public class FlashMobileTemplate {
 		this.properties = properties;
 	}
 
-	/**
+	/*
 	 * 1、一键登录V2（获取手机号码）
 	 * @author 		： <a href="https://github.com/vindell">vindell</a>
 	 * @param clientIp 由客户服务端获取的前端APP的IP，如需要使用反欺诈核验功能则传入，否则可以不传。
@@ -54,7 +54,7 @@ public class FlashMobileTemplate {
 		return this.login(null, clientIp, token);
 	}
 
-	/**
+	/*
 	 * 1、一键登录V2（获取手机号码）
 	 * @author 		： <a href="https://github.com/vindell">vindell</a>
 	 * @param outId 客户方流水号, 可以为空
@@ -90,7 +90,7 @@ public class FlashMobileTemplate {
 		return res;
 	}
 
-	/**
+	/*
 	 * 2、本机认证V2（本机号码校验）
 	 * @author 		： <a href="https://github.com/vindell">vindell</a>
 	 * @param mobile 待校验的手机号码
@@ -101,7 +101,7 @@ public class FlashMobileTemplate {
 		return this.validate(null, mobile, token);
 	}
 	
-	/**
+	/*
 	 * 2、本机认证V2（本机号码校验）
 	 * @author 		： <a href="https://github.com/vindell">vindell</a>
 	 * @param outId 客户方流水号, 可以为空
@@ -139,7 +139,7 @@ public class FlashMobileTemplate {
 		return null;
 	}
 
-	/**
+	/*
 	 * http 请求service
 	 *
 	 * @param url
