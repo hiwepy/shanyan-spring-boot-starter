@@ -92,4 +92,4 @@ Jeebiz 技术社区 **微信公共号**、**小程序**，欢迎关注反馈意�
 
 |公共号|小程序|
 |---|---|
-| ![](http://wiki.hiwepy.com/uploads/jeebiz-starters/images/m_1008c72451fffbd7ef1b13a1025fd595_r.jpg)| ![](/images/m_84ed341cdee3263fcc39bc23834034d1_r.jpg)|
+| ![](https://raw.githubusercontent.com/hiwepy/static/main/images/qrcode_for_gh_1d965ea2dfd1_344.jpg)| ![](https://raw.githubusercontent.com/hiwepy/static/main/images/gh_09d7d00da63e_344.jpg)|
