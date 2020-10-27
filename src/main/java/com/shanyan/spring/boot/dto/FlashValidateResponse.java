@@ -1,4 +1,4 @@
-package com.shanyan.spring.boot.model;
+package com.shanyan.spring.boot.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * 闪验登录响应结果
+ * 闪验本机号码校验响应结果
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class FlashLoginResponse {
+public class FlashValidateResponse {
 
 	/**
 	 * 响应代码;200000表示成功，其他代码都为失败，详情参考附录。
@@ -36,7 +36,7 @@ public class FlashLoginResponse {
 	 * 数据内容
 	 */
 	@JsonProperty("data")
-	private FlashLoginResponseData data;
+	private FlashValidateResponseData data;
 	
 	public boolean isSuccess() {
 		return "200000".equals(code);

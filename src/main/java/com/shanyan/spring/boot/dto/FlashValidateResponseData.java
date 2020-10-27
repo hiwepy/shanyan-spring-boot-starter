@@ -13,9 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.shanyan.spring.boot.model;
+package com.shanyan.spring.boot.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,22 +22,22 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FlashLoginResponseData{
+public class FlashValidateResponseData{
 
 	/**
-	 * 手机号密文 ，根据传入的encryptType值选择对应算法解密手机号。
+	 * 值：1 是本机号码 0 非本机号码
 	 */
-	@JsonProperty("mobileName")
-	private String mobileName;
-	/**
-	 * 手机号明文
-	 */
-	@JsonIgnore
-	private String mobile;
+	@JsonProperty("isVerify")
+	private int isVerify;
+	
 	/**
 	 * 闪验的交易流水号
 	 */
 	@JsonProperty("tradeNo")
 	private String tradeNo;
+	
+	public boolean isVerify() {
+		return 1 == isVerify;
+	}
 
 }

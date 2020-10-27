@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shanyan.spring.boot.model.FlashLoginResponse;
-import com.shanyan.spring.boot.model.FlashValidateResponse;
+import com.shanyan.spring.boot.dto.FlashLoginResponse;
+import com.shanyan.spring.boot.dto.FlashValidateResponse;
 
 import okhttp3.OkHttpClient;
 
