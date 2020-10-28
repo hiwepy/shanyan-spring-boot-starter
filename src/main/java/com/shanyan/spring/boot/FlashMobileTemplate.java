@@ -21,7 +21,7 @@ import okhttp3.Response;
 
 /*
  * https://shanyan.253.com/document/details?lid=300&cid=93&pc=28&pn=%25E9%2597%25AA%25E9%25AA%258CSDK
- * @author 		： <a href="https://github.com/vindell">vindell</a>
+ * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 @Slf4j
 public class FlashMobileTemplate {
@@ -44,7 +44,7 @@ public class FlashMobileTemplate {
 
 	/*
 	 * 1、一键登录V2（获取手机号码）
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param clientIp 由客户服务端获取的前端APP的IP，如需要使用反欺诈核验功能则传入，否则可以不传。
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
 	 * @return
@@ -56,7 +56,7 @@ public class FlashMobileTemplate {
 
 	/*
 	 * 1、一键登录V2（获取手机号码）
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param outId 客户方流水号, 可以为空
 	 * @param clientIp 由客户服务端获取的前端APP的IP，如需要使用反欺诈核验功能则传入，否则可以不传。
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
@@ -92,7 +92,7 @@ public class FlashMobileTemplate {
 
 	/*
 	 * 2、本机认证V2（本机号码校验）
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param mobile 待校验的手机号码
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
 	 * @return
@@ -103,7 +103,7 @@ public class FlashMobileTemplate {
 	
 	/*
 	 * 2、本机认证V2（本机号码校验）
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param outId 客户方流水号, 可以为空
 	 * @param mobile 待校验的手机号码
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
