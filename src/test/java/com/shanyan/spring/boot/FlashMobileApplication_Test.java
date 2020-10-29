@@ -37,7 +37,7 @@ public class FlashMobileApplication_Test {
 	public void testLogin() {
 
 		try {
-			FlashLoginResponse response = template.login("127.0.0.1", "00001");
+			FlashLoginResponse response = template.login("test", "127.0.0.1", "00001");
 			System.out.println(objectMapper.writeValueAsString(response));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,7 +50,7 @@ public class FlashMobileApplication_Test {
 
 		try {
 			
-			FlashValidateResponse response2 = template.validate("", "");
+			FlashValidateResponse response2 = template.validate("test", "", "");
 			System.out.println(objectMapper.writeValueAsString(response2));
 
 		} catch (Exception e) {

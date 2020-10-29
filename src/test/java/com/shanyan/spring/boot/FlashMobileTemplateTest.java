@@ -26,7 +26,7 @@ public class FlashMobileTemplateTest {
 
 		try {
 			FlashMobileTemplate template = new FlashMobileTemplate(properties, objectMapper, okhttp3Client);
-			FlashLoginResponse response = template.login("127.0.0.1", "00001");
+			FlashLoginResponse response = template.login("test", "127.0.0.1", "00001");
 			System.out.println(objectMapper.writeValueAsString(response));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,7 +40,7 @@ public class FlashMobileTemplateTest {
 		try {
 			
 			FlashMobileTemplate template = new FlashMobileTemplate(properties, objectMapper, okhttp3Client);
-			FlashValidateResponse response2 = template.validate("", "");
+			FlashValidateResponse response2 = template.validate("test", "", "");
 			System.out.println(objectMapper.writeValueAsString(response2));
 
 		} catch (Exception e) {

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shanyan.spring.boot.FlashMobileProperties.FlashMobileApp;
 import com.shanyan.spring.boot.dto.FlashLoginResponse;
 import com.shanyan.spring.boot.dto.FlashValidateResponse;
 import com.shanyan.spring.boot.utils.AESUtils;
@@ -45,84 +48,100 @@ public class FlashMobileTemplate {
 	/*
 	 * 1、一键登录V2（获取手机号码）
 	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @param appId 应用对应的闪验APPID
 	 * @param clientIp 由客户服务端获取的前端APP的IP，如需要使用反欺诈核验功能则传入，否则可以不传。
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
 	 * @return
 	 * @throws Exception 
 	 */
-	public FlashLoginResponse login(String clientIp, String token) throws Exception {
-		return this.login(null, clientIp, token);
+	public FlashLoginResponse login(String appId, String clientIp, String token) throws Exception {
+		return this.login(appId, null, clientIp, token);
 	}
 
 	/*
 	 * 1、一键登录V2（获取手机号码）
 	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @param appId 应用对应的闪验APPID
 	 * @param outId 客户方流水号, 可以为空
 	 * @param clientIp 由客户服务端获取的前端APP的IP，如需要使用反欺诈核验功能则传入，否则可以不传。
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
 	 * @return
 	 * @throws Exception 
 	 */
-	public FlashLoginResponse login(String outId, String clientIp, String token) throws Exception {
+	public FlashLoginResponse login(String appId, String outId, String clientIp, String token) throws Exception {
+		for (FlashMobileApp app : properties.getApps()) {
+			// 仅执行该应用对应的逻辑
+			if(StringUtils.equals(app.getAppId(), appId)) {
+				
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("token", token);
+				params.put("appId", appId);
+				params.put("clientIp", clientIp);
+				params.put("outId", outId);
+				params.put("encryptType", app.getEncryptType());// 可以不传，不传则解密直接使用AES解密
+				params.put("sign", SignUtils.getSign(params, app.getAppKey())); // 签名算法：hmacSHA256(所有传入参数按字段名正序排序后拼接的字符串，应用appKey)
 
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("token", token);
-		params.put("appId", properties.getAppId());
-		params.put("clientIp", clientIp);
-		params.put("outId", outId);
-		params.put("encryptType", properties.getEncryptType());// 可以不传，不传则解密直接使用AES解密
-		params.put("sign", SignUtils.getSign(params, properties.getAppKey())); // 签名算法：hmacSHA256(所有传入参数按字段名正序排序后拼接的字符串，应用appKey)
-
-		FlashLoginResponse res = request(FLASH_LOGIN_URL, params, FlashLoginResponse.class);
-		if (res.isSuccess()) {
-			String mobile = res.getData().getMobileName();
-			// 加解密方式，值包含：0（AES加密）、1（RSA加密）缺省为0，如使用RSA方式则在创建应用时必须填写RSA公钥 
-            if ("0".equals(properties.getEncryptType())) {
-	             String key = MD5.getMD5Code(properties.getAppKey());
-	             mobile = AESUtils.decrypt(mobile, key.substring(0, 16), key.substring(16));
-	         } else if ("1".equals(properties.getEncryptType())) {
-	             mobile = RSAUtils.decryptByPrivateKeyForLongStr(mobile, properties.getPrivateKey());
-	         }
-			 res.getData().setMobile(mobile);
-			 return res;
+				FlashLoginResponse res = request(FLASH_LOGIN_URL, params, FlashLoginResponse.class);
+				if (res.isSuccess()) {
+					String mobile = res.getData().getMobileName();
+					// 加解密方式，值包含：0（AES加密）、1（RSA加密）缺省为0，如使用RSA方式则在创建应用时必须填写RSA公钥 
+		            if ("0".equals(app.getEncryptType())) {
+			             String key = MD5.getMD5Code(app.getAppKey());
+			             mobile = AESUtils.decrypt(mobile, key.substring(0, 16), key.substring(16));
+			         } else if ("1".equals(app.getEncryptType())) {
+			             mobile = RSAUtils.decryptByPrivateKeyForLongStr(mobile, app.getPrivateKey());
+			         }
+					 res.getData().setMobile(mobile);
+					 return res;
+				}
+				log.error("获取手机号码失败：code: {}、Message: {}", res.getCode(), res.getMessage());
+				return res;
+			}
 		}
-		log.error("获取手机号码失败：code: {}、Message: {}", res.getCode(), res.getMessage());
-		return res;
+		return new FlashLoginResponse();
 	}
 
 	/*
 	 * 2、本机认证V2（本机号码校验）
 	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @param appId 应用对应的闪验APPID
 	 * @param mobile 待校验的手机号码
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
 	 * @return
 	 */
-	public FlashValidateResponse validate(String mobile, String token) {
+	public FlashValidateResponse validate(String appId, String mobile, String token) {
 		return this.validate(null, mobile, token);
 	}
 	
 	/*
 	 * 2、本机认证V2（本机号码校验）
 	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @param appId 应用对应的闪验APPID
 	 * @param outId 客户方流水号, 可以为空
 	 * @param mobile 待校验的手机号码
 	 * @param token 从SDK获取的token参数；有效期：移动2分钟、电信10分钟、联通30分钟，一次有效。
 	 * @return
 	 */
-	public FlashValidateResponse validate(String outId, String mobile, String token) {
+	public FlashValidateResponse validate(String appId, String outId, String mobile, String token) {
 
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("appId", properties.getAppId());
-		params.put("token", token);
-		params.put("mobile", mobile);
-		params.put("outId", outId);
-		params.put("sign", SignUtils.getSign(params, properties.getAppKey())); // 签名算法：hmacSHA256(所有传入参数按字段名正序排序后拼接的字符串，应用appKey)
+		for (FlashMobileApp app : properties.getApps()) {
+			// 仅执行该应用对应的逻辑
+			if(StringUtils.equals(app.getAppId(), appId)) {
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("appId", appId);
+				params.put("token", token);
+				params.put("mobile", mobile);
+				params.put("outId", outId);
+				params.put("sign", SignUtils.getSign(params, app.getAppKey())); // 签名算法：hmacSHA256(所有传入参数按字段名正序排序后拼接的字符串，应用appKey)
 
-		FlashValidateResponse res = request(FLASH_VALIDATE_URL, params, FlashValidateResponse.class);
-		if (!res.isSuccess()) {
-			log.error("本机号码校验：code: {}、Message: {}", res.getCode(), res.getMessage());
+				FlashValidateResponse res = request(FLASH_VALIDATE_URL, params, FlashValidateResponse.class);
+				if (!res.isSuccess()) {
+					log.error("本机号码校验：code: {}、Message: {}", res.getCode(), res.getMessage());
+				}
+				return res;
+			}
 		}
-		return res;
+		return new FlashValidateResponse();
 	}
 	
 	
