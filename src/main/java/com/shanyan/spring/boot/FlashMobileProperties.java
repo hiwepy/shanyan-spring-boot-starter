@@ -45,7 +45,6 @@ public class FlashMobileProperties {
 		 * 手机号加解密方式，值包含：0（AES加密）、1（RSA加密）缺省为0，如使用RSA方式则在创建应用时必须填写RSA公钥。
 		 */
 		private String encryptType = "0";
-
 		/**
 		 * 手机号解密私钥，encryptType 为 1（RSA加密）时，必须填写 RSA私钥
 		 */
