@@ -73,10 +73,10 @@ public class FlashMobileTemplate {
 			if(StringUtils.equals(app.getAppId(), appId)) {
 				
 				Map<String, String> params = new HashMap<String, String>();
-				params.put("token", token);
-				params.put("appId", appId);
-				params.put("clientIp", clientIp);
-				params.put("outId", outId);
+				params.put("appId", StringUtils.defaultString(appId));
+				params.put("token", StringUtils.defaultString(token));
+				params.put("clientIp", StringUtils.defaultString(clientIp));
+				params.put("outId", StringUtils.defaultString(outId));
 				params.put("encryptType", app.getEncryptType());// 可以不传，不传则解密直接使用AES解密
 				params.put("sign", SignUtils.getSign(params, app.getAppKey())); // 签名算法：hmacSHA256(所有传入参数按字段名正序排序后拼接的字符串，应用appKey)
 
@@ -127,10 +127,10 @@ public class FlashMobileTemplate {
 			// 仅执行该应用对应的逻辑
 			if(StringUtils.equals(app.getAppId(), appId)) {
 				Map<String, String> params = new HashMap<String, String>();
-				params.put("appId", appId);
-				params.put("token", token);
-				params.put("mobile", mobile);
-				params.put("outId", outId);
+				params.put("appId", StringUtils.defaultString(appId));
+				params.put("token", StringUtils.defaultString(token));
+				params.put("mobile", StringUtils.defaultString(mobile));
+				params.put("outId", StringUtils.defaultString(outId));
 				params.put("sign", SignUtils.getSign(params, app.getAppKey())); // 签名算法：hmacSHA256(所有传入参数按字段名正序排序后拼接的字符串，应用appKey)
 
 				FlashValidateResponse res = request(FLASH_VALIDATE_URL, params, FlashValidateResponse.class);
