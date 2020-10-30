@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shanyan.spring.boot.FlashMobileProperties.FlashMobileApp;
 import com.shanyan.spring.boot.dto.FlashLoginResponse;
 import com.shanyan.spring.boot.dto.FlashValidateResponse;
 import com.shanyan.spring.boot.utils.AESUtils;

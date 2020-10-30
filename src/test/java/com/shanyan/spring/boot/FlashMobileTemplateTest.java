@@ -1,5 +1,8 @@
 package com.shanyan.spring.boot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +22,11 @@ public class FlashMobileTemplateTest {
 	@Before
 	public void setup() {
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		List<FlashMobileApp> apps = new ArrayList<>();
+		FlashMobileApp app = new FlashMobileApp();
+		app.setAppId("");
+		app.setAppKey("");
+		apps.add(app);
 	}
 
 	@Test
