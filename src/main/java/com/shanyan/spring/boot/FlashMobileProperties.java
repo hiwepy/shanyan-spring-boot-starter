@@ -31,7 +31,7 @@ public class FlashMobileProperties {
 
 	private List<FlashMobileApp> apps;
 	
-	class FlashMobileApp {
+	public class FlashMobileApp {
 		
 		/**
 		 * 应用对应的闪验APPID；由控制台创建应用时生成
