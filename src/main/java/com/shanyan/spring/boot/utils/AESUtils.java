@@ -5,7 +5,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
-/**
+/*
  * Description: AES加密解密方法
  */
 public class AESUtils {
@@ -13,7 +13,7 @@ public class AESUtils {
     private static final String charset = "UTF-8";
 
 
-    /**
+    /*
      * Description: AES解密
      */
     public static String decrypt(String sSrc, String sKey, String siv) throws Exception {

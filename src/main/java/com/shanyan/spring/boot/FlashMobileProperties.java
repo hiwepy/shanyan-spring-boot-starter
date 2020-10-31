@@ -20,7 +20,6 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * https://shanyan.253.com/document/details?lid=300&cid=93&pc=28&pn=%25E9%2597%25AA%25E9%25AA%258CSDK
  * 
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */

@@ -6,29 +6,29 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.spec.PKCS8EncodedKeySpec;
 
-/**
+/*
  * RSA公钥/私钥/签名工具包
  * 非对称加密算法可以用来对对称加密的密钥加密，这样保证密钥的安全也就保证了数据的安全
  */
 public class RSAUtils {
 
-    /**
+    /*
      * 加密算法RSA
      */
     public static final String KEY_ALGORITHM = "RSA";
 
-    /**
+    /*
      * RSA最大加密明文大小
      */
     private static final int MAX_ENCRYPT_BLOCK = 117;
 
-    /**
+    /*
      * RSA最大解密密文大小
      */
     private static final int MAX_DECRYPT_BLOCK = 128;
 
 
-    /**
+    /*
      * 私钥解密
      *
      * @param encryptedStr 已加密数据
