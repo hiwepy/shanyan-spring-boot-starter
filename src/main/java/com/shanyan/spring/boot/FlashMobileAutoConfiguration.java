@@ -2,7 +2,7 @@ package com.shanyan.spring.boot;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,32 +15,40 @@ import okhttp3.OkHttpClient;
 
 
 @Configuration
-@EnableConfigurationProperties(FlashMobileProperties.class)
+@EnableConfigurationProperties({FlashMobileProperties.class, FlashMobileOkHttp3Properties.class})
 public class FlashMobileAutoConfiguration {
+	
+	@Bean
+	public FlashMobileTemplate shumeiAntiFraudTemplate(
+			FlashMobileProperties properties,  
+			FlashMobileOkHttp3Properties okHttp3Properties,
+			ObjectProvider<ObjectMapper> objectMapperProvider,	
+			ObjectProvider<OkHttpClient> okhttp3ClientProvider) {
+		
+		ObjectMapper objectMapper = objectMapperProvider.getIfAvailable(() -> { 
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+			return mapper;
+		});
+		
+		OkHttpClient okhttp3Client = okhttp3ClientProvider.getIfAvailable(() -> { 
+			
+			OkHttpClient.Builder builder = new OkHttpClient.Builder()
+				.callTimeout(okHttp3Properties.getCallTimeout(), TimeUnit.SECONDS)
+				.connectionPool(new ConnectionPool(okHttp3Properties.getMaxIdleConnections(),
+						okHttp3Properties.getKeepAliveDuration().getSeconds(), TimeUnit.SECONDS))
+				.connectTimeout(okHttp3Properties.getConnectTimeout(), TimeUnit.SECONDS)
+				.followRedirects(okHttp3Properties.isFollowRedirects())
+				.followSslRedirects(okHttp3Properties.isFollowSslRedirects())
+				.pingInterval(okHttp3Properties.getPingInterval(), TimeUnit.SECONDS)
+				.readTimeout(okHttp3Properties.getReadTimeout(), TimeUnit.SECONDS)
+				.retryOnConnectionFailure(okHttp3Properties.isRetryOnConnectionFailure())
+				.writeTimeout(okHttp3Properties.getWriteTimeout(), TimeUnit.SECONDS);
+				
+	        return builder.build();
+	        
+		});
 
-	@Bean
-	@ConditionalOnMissingBean
-	public OkHttpClient okhttp3Client() {
-		OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(6L, TimeUnit.SECONDS);
-        builder.readTimeout(6L, TimeUnit.SECONDS);
-        builder.writeTimeout(6L, TimeUnit.SECONDS);
-        ConnectionPool connectionPool = new ConnectionPool(50, 60, TimeUnit.SECONDS);
-        builder.connectionPool(connectionPool);
-        return builder.build();
-	}
-	
-	@Bean
-	@ConditionalOnMissingBean
-	public ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		return objectMapper;
-	}
-	
-	@Bean
-	public FlashMobileTemplate shumeiAntiFraudTemplate(FlashMobileProperties properties,  
-			ObjectMapper objectMapper, OkHttpClient okhttp3Client) {
 		return new FlashMobileTemplate(properties, objectMapper, okhttp3Client);
 	}
 	
