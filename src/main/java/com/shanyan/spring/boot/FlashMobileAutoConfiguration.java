@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
@@ -28,6 +31,10 @@ public class FlashMobileAutoConfiguration {
 		ObjectMapper objectMapper = objectMapperProvider.getIfAvailable(() -> { 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+			mapper.enable(MapperFeature.USE_GETTERS_AS_SETTERS);
+			mapper.enable(MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS);
+			mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 			return mapper;
 		});
 		
